@@ -1,34 +1,44 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MyTest {
     public static void main(String [] args) {
         Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int k = scanner.nextInt();
+        scanner.useDelimiter("\n");
         String s = scanner.next();
+        String [] strings = s.split(",");
+        ArrayList<Integer> list = new ArrayList<>();
+        for (String s1: strings[0].split(" ")) {
+            list.add(Integer.parseInt(s1));
+        }
+        list.sort(Integer::compareTo);
 
-        int count[] = new int[26];
-        for (char c: s.toCharArray()) {
-            count[c - 'A'] += 1;
+        int array [] = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            array[i] = list.get(i);
         }
-        Arrays.sort(count);
-        System.out.println(Arrays.toString(count));
-        int all = 0;
-        for (int i = count.length - 1; i >= 0; i--) {
-            int remain = k - count[i];
-            if (count[i] == 0) {
-                break;
-            }
-            if (remain < 0) {
-                continue;
-            }
-            all += (count[i] * count[i]);
-            k -= count[i];
+
+        int number = Integer.parseInt(strings[1]);
+        if (findSum(number, array, array.length)) {
+            System.out.println("True");
+        } else {
+            System.out.println("False");
         }
-        all += k;
-        System.out.println(all);
+    }
+
+    private static boolean findSum(int k, int a[], int n)
+    {
+        boolean found = false;
+        int i=0, j=n-1;
+        while (i < j) {
+            if (a[i] + a[j] < k)
+                i++;
+            else if (a[i] + a[j] > k)
+                j--;
+            else {
+                found = true;
+            }
+        }
+        return found;
     }
 }

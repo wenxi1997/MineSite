@@ -2,6 +2,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -15,12 +16,15 @@ import sun.misc.Unsafe;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Executors;
 
@@ -78,17 +82,43 @@ public class SomeTest extends BaseTest {
         print(unsafe.arrayBaseOffset(int[].class));
         print(unsafe.arrayIndexScale(Object[].class));
 
-        String s = "Just some String";
+        String s = "Just some String1";
 
         ClassIntrospector introspector = new ClassIntrospector();
         ObjectInfo info = introspector.introspect(s);
         print(info.toString());
         print(info.getDeepSize());
 
+        print(introspector.introspect(new B()).toString());
+        print(introspector.introspect(new B()).getDeepSize());
+
         BitSet bitSet = new BitSet(7);
         bitSet.set(0);
         bitSet.set(6);
         print(bitSet.toString());
+
+        Calendar c = Calendar.getInstance();
+        Date date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        print(dateFormat.format(date));
+        print(DateFormatUtils.format(c, "yyyy-MM-dd:hh:mm:ss"));
+        print(DateFormatUtils.format(c, "yyyy-MM-dd:HH:mm:ss"));
+
+        print(Color.RED.ordinal());
+
+        ManagementFactory.getPlatformMBeanServer();
+
+        Executors.newCachedThreadPool();
+    }
+
+    public static class A{
+        private int a = 1;
+    }
+
+    public static class B extends A{}
+
+    enum Color{
+        RED, BLACK
     }
 
 }
