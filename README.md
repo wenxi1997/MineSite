@@ -4,7 +4,7 @@
 
 ## 简介
 
-![avatar](/data/index.bmp)
+![avatar](/data/back.bmp)
 
 心血来潮想要有个博客, 于是申请了[0u0.site](http://www.0u0.site) 然后用上学过的东西, 开发了这个家伙
 
